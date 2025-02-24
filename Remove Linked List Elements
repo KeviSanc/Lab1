@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct ListNode{
+    int val;
+    struct ListNode *next;
+};
+
+struct ListNode* removeElements(struct ListNode* head, int val){
+    struct ListNode *dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    struct ListNode *current = head;
+    struct ListNode *prev = dummy;
+    
+    while (current != NULL) {
+        if (current->val == val){
+            prev->next = current->next;
+            free(current);
+        }
+        else{
+            prev = current;
+        }
+        current = prev->next;
+    }
+    
+    struct ListNode *new_head = dummy->next;
+    free(dummy);
+    return new_head;
+}
+
+void insertAtEnd(struct ListNode** head, int data){
+  struct ListNode* newnode = newnode(data);
+  if (*head == NULL){
+      *head = newnode;
+      newnode->next = *head;
+  }
+  else{
+      struct node* temp = *head;
+      while (temp->next != *head){
+          temp = temp->next;
+      }
+      temp->next = newnode;
+      newnode->next = *head;
+  }
+}
+
+struct ListNode* createNode(int val){
+    struct ListNode *newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newNode->val = val;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(struct ListNode *head){
+    struct ListNode *temp = head;
+    while (temp != NULL){
+        printf("%d -> ", temp->val);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main(){
+    insertAtEnd(&head, 1);
+    insertAtEnd(&head, 2);
+    insertAtEnd(&head, 3);
+    insertAtEnd(&head, 4);
+    insertAtEnd(&head, 5);
+    insertAtEnd(&head, 6);
+    
+    printf("Original List: ");
+    printList(head);
+    
+    head = removeElements(head, 6);
+    
+    printf("Updated List: ");
+    printList(head);
+    
+    return 0;
+}
